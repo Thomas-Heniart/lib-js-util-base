@@ -4,9 +4,8 @@
   "description": "general utils",
   "main": "index.js",
   "scripts": {
-    "coverage": "nyc --reporter=html mocha test/",
-    "lint": "standard",
-    "lint:fix": "standard --fix",
+    "lint": "bfx-lint-js . --mocha",
+    "lint:fix": "bfx-lint-js . --mocha --fix",
     "test": "npm run lint && npm run test:unit",
     "test:unit": "NODE_ENV=test mocha test/"
   },
@@ -33,9 +32,17 @@
   },
   "homepage": "https://github.com/bitfinexcom/lib-js-util-base#readme",
   "devDependencies": {
-    "mocha": "10.8.2",
+    "mocha": "12.0.3",
     "mocha-it-each": "1.0.2",
-    "nyc": "15.1.0",
-    "standard": "17.1.0"
+    "@bitfinex/lint-js": "1.1.0"
+  },
+  "engines": {
+    "node": ">=22.0"
+  },
+  "overrides": {
+    "mocha": {
+      "glob": "14.0.3",
+      "minimatch": "11.0.4"
+    }
   }
 }

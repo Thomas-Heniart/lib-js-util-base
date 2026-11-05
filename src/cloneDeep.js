@@ -1,5 +1,3 @@
-/* eslint-disable no-prototype-builtins */
-
 'use strict'
 
 const isObject = require('./isObject')

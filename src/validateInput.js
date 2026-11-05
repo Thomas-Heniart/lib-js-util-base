@@ -1,4 +1,3 @@
-/* eslint-disable no-misleading-character-class */
 'use strict'
 // https://v8.dev/features/regexp-v-flag
 // https://mathiasbynens.be/notes/es-unicode-property-escapes
