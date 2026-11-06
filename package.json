@@ -33,7 +33,7 @@
   "homepage": "https://github.com/bitfinexcom/lib-js-util-base#readme",
   "devDependencies": {
     "@bitfinex/lint-js": "^1.1.0",
-    "brittle": "4.5.0"
+    "brittle": "^4.5.0"
   },
   "engines": {
     "node": ">=22.0"
