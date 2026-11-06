@@ -1,33 +1,32 @@
 'use strict'
 
 const test = require('brittle')
-const assert = require('assert')
 const resolvePromiseCb = require('../src/resolvePromiseCb')
 
-test('resolvePromiseCb should handle callback errors', () => {
+test('resolvePromiseCb should handle callback errors', (t) => {
   let called = false
   resolvePromiseCb(new Error('foo'), null, (err) => {
     called = true
-    assert.strictEqual(err.message, 'foo')
+    t.is(err.message, 'foo')
   })
-  assert.strictEqual(called, true)
+  t.is(called, true)
 })
 
-test('resolvePromiseCb should handle promise rejections', async () => {
-  await assert.rejects(resolvePromiseCb(new Error('foo')), { message: 'foo' })
+test('resolvePromiseCb should handle promise rejections', async (t) => {
+  await t.exception(resolvePromiseCb(new Error('foo')), { message: 'foo' })
 })
 
-test('resolvePromiseCb should handle callback results', () => {
+test('resolvePromiseCb should handle callback results', (t) => {
   let called = false
   resolvePromiseCb(null, 'foo', (err, res) => {
     called = true
-    assert.strictEqual(err, null)
-    assert.strictEqual(res, 'foo')
+    t.is(err, null)
+    t.is(res, 'foo')
   })
-  assert.strictEqual(called, true)
+  t.is(called, true)
 })
 
-test('resolvePromiseCb should handle promise resolves', async () => {
+test('resolvePromiseCb should handle promise resolves', async (t) => {
   const res = await resolvePromiseCb(null, 'foo')
-  assert.strictEqual(res, 'foo')
+  t.is(res, 'foo')
 })

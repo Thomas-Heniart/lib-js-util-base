@@ -1,50 +1,49 @@
 'use strict'
 
 const test = require('brittle')
-const assert = require('assert')
 const chunk = require('../src/chunk')
 
-test('chunk should chunk array into groups', () => {
+test('chunk should chunk array into groups', (t) => {
   const result = chunk([1, 2, 3, 4, 5], 2)
-  assert.deepStrictEqual(result, [[1, 2], [3, 4], [5]])
+  t.alike(result, [[1, 2], [3, 4], [5]])
 })
 
-test('chunk should chunk array into groups if chunk size is string number', () => {
+test('chunk should chunk array into groups if chunk size is string number', (t) => {
   const result = chunk([1, 2, 3, 4, 5], '2')
-  assert.deepStrictEqual(result, [[1, 2], [3, 4], [5]])
+  t.alike(result, [[1, 2], [3, 4], [5]])
 })
 
-test('chunk should return an empty array if the collection is not an array', () => {
+test('chunk should return an empty array if the collection is not an array', (t) => {
   const result = chunk(null, 2)
-  assert.deepStrictEqual(result, [])
+  t.alike(result, [])
 })
 
-test('chunk should return an empty array if the chunk size is not a number', () => {
+test('chunk should return an empty array if the chunk size is not a number', (t) => {
   const result = chunk([1, 2, 3], 'test')
-  assert.deepStrictEqual(result, [])
+  t.alike(result, [])
 })
 
-test('chunk should handle empty array', () => {
+test('chunk should handle empty array', (t) => {
   const result = chunk([])
-  assert.deepStrictEqual(result, [])
+  t.alike(result, [])
 })
 
-test('chunk should handle chunk size larger than array', () => {
+test('chunk should handle chunk size larger than array', (t) => {
   const result = chunk([1, 2], 5)
-  assert.deepStrictEqual(result, [[1, 2]])
+  t.alike(result, [[1, 2]])
 })
 
-test('chunk should handle zero chunk size', () => {
+test('chunk should handle zero chunk size', (t) => {
   const result = chunk([1, 2, 3], 0)
-  assert.deepStrictEqual(result, [[1], [2], [3]])
+  t.alike(result, [[1], [2], [3]])
 })
 
-test('chunk should handle default chunkSize parameter', () => {
+test('chunk should handle default chunkSize parameter', (t) => {
   const result = chunk([1, 2, 3])
-  assert.deepStrictEqual(result, [[1], [2], [3]])
+  t.alike(result, [[1], [2], [3]])
 })
 
-test('chunk should handle default collection parameter', () => {
+test('chunk should handle default collection parameter', (t) => {
   const result = chunk(undefined, 2)
-  assert.deepStrictEqual(result, [])
+  t.alike(result, [])
 })

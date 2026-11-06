@@ -1,16 +1,15 @@
 'use strict'
 
 const test = require('brittle')
-const assert = require('assert')
 const { transformKeysToSnake } = require('../index')
 
 for (const [index, input] of [new Date(), null, false].entries()) {
-  test(`transformKeysToSnake non recursive (default) should return input when it is not an object [${index + 1}]`, () => {
-    assert.equal(transformKeysToSnake(input), input)
+  test(`transformKeysToSnake non recursive (default) should return input when it is not an object [${index + 1}]`, (t) => {
+    t.is(transformKeysToSnake(input), input)
   })
 }
 
-test('transformKeysToSnake non recursive (default) should return input with snake case props recursively', () => {
+test('transformKeysToSnake non recursive (default) should return input with snake case props recursively', (t) => {
   const input = {
     camelProp: 'true',
     nestedProp: {
@@ -35,26 +34,26 @@ test('transformKeysToSnake non recursive (default) should return input with snak
       { foo_bar: 'value', foo: 'value' }
     ]
   }
-  assert.deepEqual(transformKeysToSnake(input), output)
+  t.alike(transformKeysToSnake(input), output)
 })
 
-test('transformKeysToSnake non recursive (default) should work with array mix of object and nested arrays', () => {
+test('transformKeysToSnake non recursive (default) should work with array mix of object and nested arrays', (t) => {
   const input = {
     mixedArray: [123, { someKey: 'value' }, [{ nestedArrayItem: 'test' }]]
   }
   const output = {
     mixed_array: [123, { someKey: 'value' }, [{ nestedArrayItem: 'test' }]]
   }
-  assert.deepEqual(transformKeysToSnake(input), output)
+  t.alike(transformKeysToSnake(input), output)
 })
 
 for (const [index, input] of [new Date(), null, false].entries()) {
-  test(`transformKeysToSnake recursive should return input when it is not an object [${index + 1}]`, () => {
-    assert.equal(transformKeysToSnake(input, { recursive: true }), input)
+  test(`transformKeysToSnake recursive should return input when it is not an object [${index + 1}]`, (t) => {
+    t.is(transformKeysToSnake(input, { recursive: true }), input)
   })
 }
 
-test('transformKeysToSnake recursive should return input with snake case props recursively', () => {
+test('transformKeysToSnake recursive should return input with snake case props recursively', (t) => {
   const input = {
     camelProp: 'true',
     nestedProp: {
@@ -85,15 +84,15 @@ test('transformKeysToSnake recursive should return input with snake case props r
       { foo_bar: 'value', foo: 'value' }
     ]
   }
-  assert.deepEqual(transformKeysToSnake(input, { recursive: true }), output)
+  t.alike(transformKeysToSnake(input, { recursive: true }), output)
 })
 
-test('transformKeysToSnake recursive should work with array mix of object and nested arrays', () => {
+test('transformKeysToSnake recursive should work with array mix of object and nested arrays', (t) => {
   const input = {
     mixedArray: [123, { someKey: 'value' }, [{ nestedArrayItem: 'test' }]]
   }
   const output = {
     mixed_array: [123, { some_key: 'value' }, [{ nested_array_item: 'test' }]]
   }
-  assert.deepEqual(transformKeysToSnake(input, { recursive: true }), output)
+  t.alike(transformKeysToSnake(input, { recursive: true }), output)
 })

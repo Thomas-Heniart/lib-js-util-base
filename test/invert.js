@@ -3,23 +3,22 @@
 const test = require('brittle')
 /* eslint-env jest */
 
-const assert = require('assert')
 const invert = require('../src/invert')
 
-test('invert should invert an object', () => {
+test('invert should invert an object', (t) => {
   const object = { a: 1, b: 2 }
   const actual = invert(object)
 
-  assert.deepStrictEqual(actual, { 1: 'a', 2: 'b' })
-  assert.deepStrictEqual(invert(actual), { a: '1', b: '2' })
+  t.alike(actual, { 1: 'a', 2: 'b' })
+  t.alike(invert(actual), { a: '1', b: '2' })
 })
 
-test('invert should work with values that shadow keys on `Object.prototype`', () => {
+test('invert should work with values that shadow keys on `Object.prototype`', (t) => {
   const object = { a: 'hasOwnProperty', b: 'constructor' }
-  assert.deepStrictEqual(invert(object), { hasOwnProperty: 'a', constructor: 'b' })
+  t.alike(invert(object), { hasOwnProperty: 'a', constructor: 'b' })
 })
 
-test('invert should work with an object that has a `length` property', () => {
+test('invert should work with an object that has a `length` property', (t) => {
   const object = { 0: 'a', 1: 'b', length: 2 }
-  assert.deepStrictEqual(invert(object), { a: '0', b: '1', 2: 'length' })
+  t.alike(invert(object), { a: '0', b: '1', 2: 'length' })
 })

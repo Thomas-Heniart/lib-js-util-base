@@ -1,10 +1,9 @@
 'use strict'
 
 const test = require('brittle')
-const assert = require('assert')
 const { groupBy } = require('../index')
 
-test('groupBy should group items by string property key', () => {
+test('groupBy should group items by string property key', (t) => {
   const items = [
     { id: 1, category: 'fiat', name: 'USD' },
     { id: 2, category: 'fiat', name: 'EUR' },
@@ -15,7 +14,7 @@ test('groupBy should group items by string property key', () => {
 
   const groupedItems = groupBy(items, 'category')
 
-  assert.deepStrictEqual(groupedItems, {
+  t.alike(groupedItems, {
     fiat: [
       { id: 1, category: 'fiat', name: 'USD' },
       { id: 2, category: 'fiat', name: 'EUR' },
@@ -28,7 +27,7 @@ test('groupBy should group items by string property key', () => {
   })
 })
 
-test('groupBy should group items by number property key', () => {
+test('groupBy should group items by number property key', (t) => {
   const items = [
     { id: 1, balance: 25 },
     { id: 2, balance: 30 },
@@ -38,7 +37,7 @@ test('groupBy should group items by number property key', () => {
 
   const groupedItems = groupBy(items, 'balance')
 
-  assert.deepStrictEqual(groupedItems, {
+  t.alike(groupedItems, {
     25: [
       { id: 1, balance: 25 },
       { id: 3, balance: 25 }
@@ -48,7 +47,7 @@ test('groupBy should group items by number property key', () => {
   })
 })
 
-test('groupBy should group items by computed key using a function', () => {
+test('groupBy should group items by computed key using a function', (t) => {
   const items = [
     { id: 1, category: 'fiat', name: 'USD' },
     { id: 2, category: 'fiat', name: 'EUR' },
@@ -59,14 +58,14 @@ test('groupBy should group items by computed key using a function', () => {
 
   const groupedItems = groupBy(items, item => item.name.charAt(0))
 
-  assert.deepStrictEqual(groupedItems, {
+  t.alike(groupedItems, {
     U: [{ id: 1, category: 'fiat', name: 'USD' }, { id: 3, category: 'crypto', name: 'USDT' }],
     E: [{ id: 2, category: 'fiat', name: 'EUR' }, { id: 5, category: 'crypto', name: 'EURT' }],
     I: [{ id: 4, category: 'fiat', name: 'INR' }]
   })
 })
 
-test('groupBy should group items by function returning a number', () => {
+test('groupBy should group items by function returning a number', (t) => {
   const items = [
     { id: 1, balance: 25 },
     { id: 2, balance: 30 },
@@ -76,7 +75,7 @@ test('groupBy should group items by function returning a number', () => {
 
   const groupedItems = groupBy(items, item => Math.floor(item.balance / 10))
 
-  assert.deepStrictEqual(groupedItems, {
+  t.alike(groupedItems, {
     2: [
       { id: 1, balance: 25 },
       { id: 3, balance: 25 }
@@ -86,18 +85,18 @@ test('groupBy should group items by function returning a number', () => {
   })
 })
 
-test('groupBy should handle empty array', () => {
+test('groupBy should handle empty array', (t) => {
   const items = []
   const groupedItems = groupBy(items, 'category')
 
-  assert.deepStrictEqual(groupedItems, {})
+  t.alike(groupedItems, {})
 })
 
-test('groupBy should handle array with one item', () => {
+test('groupBy should handle array with one item', (t) => {
   const items = [{ id: 1, category: 'fiat', name: 'USD' }]
   const groupedItems = groupBy(items, 'category')
 
-  assert.deepStrictEqual(groupedItems, {
+  t.alike(groupedItems, {
     fiat: [{ id: 1, category: 'fiat', name: 'USD' }]
   })
 })
