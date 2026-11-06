@@ -1,18 +1,14 @@
 'use strict'
 
-/* eslint-env mocha */
-
-const assert = require('assert')
+const test = require('brittle')
 const { shuffle } = require('../index')
 
-describe('shuffle', () => {
-  const array = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
+const array = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
 
-  it('should return a new array', () => {
-    assert.ok(shuffle(array).some((x, i) => array[i] !== x))
-  })
+test('shuffle should return a new array', (t) => {
+  t.ok(shuffle(array).some((x, i) => array[i] !== x))
+})
 
-  it('should contain the same elements after a collection is shuffled', () => {
-    assert.deepStrictEqual(shuffle(array).sort((a, b) => a - b), array)
-  })
+test('shuffle should contain the same elements after a collection is shuffled', (t) => {
+  t.alike(shuffle(array).sort((a, b) => a - b), array)
 })

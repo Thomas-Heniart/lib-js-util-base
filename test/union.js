@@ -1,26 +1,22 @@
 'use strict'
 
-/* eslint-env mocha */
-
-const assert = require('assert')
+const test = require('brittle')
 const { union } = require('../index')
 
-describe('union', () => {
-  it('should return the union of the arrays', () => {
-    assert.deepStrictEqual(union([2], [1, 2]), [2, 1])
-    assert.deepStrictEqual(union([1, 2], [2, 3]), [1, 2, 3])
-    assert.deepStrictEqual(union([1, 2], [3, 4]), [1, 2, 3, 4])
-    assert.deepStrictEqual(union([1, 2], [3, 4], [5, 6]), [1, 2, 3, 4, 5, 6])
-    assert.deepStrictEqual(union([1, 2], [2, 3], [3, 4]), [1, 2, 3, 4])
-  })
+test('union should return the union of the arrays', (t) => {
+  t.alike(union([2], [1, 2]), [2, 1])
+  t.alike(union([1, 2], [2, 3]), [1, 2, 3])
+  t.alike(union([1, 2], [3, 4]), [1, 2, 3, 4])
+  t.alike(union([1, 2], [3, 4], [5, 6]), [1, 2, 3, 4, 5, 6])
+  t.alike(union([1, 2], [2, 3], [3, 4]), [1, 2, 3, 4])
+})
 
-  it('should return an empty array', () => {
-    assert.deepStrictEqual(union(), [])
-    assert.deepStrictEqual(union([]), [])
-    assert.deepStrictEqual(union([], []), [])
-  })
+test('union should return an empty array', (t) => {
+  t.alike(union(), [])
+  t.alike(union([]), [])
+  t.alike(union([], []), [])
+})
 
-  it('should skip non array arguments', () => {
-    assert.deepStrictEqual(union([1, 2], { a: 1 }, [3]), [1, 2, 3])
-  })
+test('union should skip non array arguments', (t) => {
+  t.alike(union([1, 2], { a: 1 }, [3]), [1, 2, 3])
 })

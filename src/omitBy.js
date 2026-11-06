@@ -2,10 +2,10 @@
 
 const omitBy = (obj, predicate) => {
   if (obj === null) {
-    return {}
+    return Object.create(null)
   }
 
-  const result = {}
+  const result = Object.create(null)
   for (const key in obj) {
     const val = obj[key]
     if (!predicate(val, key)) {

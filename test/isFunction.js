@@ -1,57 +1,53 @@
 'use strict'
 
-/* eslint-env mocha */
-
-const assert = require('assert')
+const test = require('brittle')
 const { isFunction } = require('../index')
 
-describe('isFunction', () => {
-  it('should return true for a Function object', () => {
-    assert.strictEqual(isFunction(function () {}), true)
-    assert.strictEqual(isFunction(() => {}), true)
-    assert.strictEqual(isFunction(Object.keys), true)
-  })
+test('isFunction should return true for a Function object', (t) => {
+  t.is(isFunction(function () {}), true)
+  t.is(isFunction(() => {}), true)
+  t.is(isFunction(Object.keys), true)
+})
 
-  it('should return `true` for async functions', () => {
-    assert.strictEqual(isFunction(async function () {}), true)
-    assert.strictEqual(isFunction(async () => {}), true)
-  })
+test('isFunction should return `true` for async functions', (t) => {
+  t.is(isFunction(async function () {}), true)
+  t.is(isFunction(async () => {}), true)
+})
 
-  it('should return `true` for generator functions', () => {
-    assert.strictEqual(isFunction(function * () {}), true)
-  })
+test('isFunction should return `true` for generator functions', (t) => {
+  t.is(isFunction(function * () {}), true)
+})
 
-  it('should return `true` for the `Proxy` constructor', () => {
-    assert.strictEqual(isFunction(Proxy), true)
-  })
+test('isFunction should return `true` for the `Proxy` constructor', (t) => {
+  t.is(isFunction(Proxy), true)
+})
 
-  it('should return `true` for array view constructors', () => {
-    assert.strictEqual(isFunction(Float32Array), true)
-    assert.strictEqual(isFunction(Float64Array), true)
-    assert.strictEqual(isFunction(Int8Array), true)
-    assert.strictEqual(isFunction(Int16Array), true)
-    assert.strictEqual(isFunction(Uint8Array), true)
-    assert.strictEqual(isFunction(Uint8ClampedArray), true)
-    assert.strictEqual(isFunction(Uint16Array), true)
-    assert.strictEqual(isFunction(Uint32Array), true)
-    assert.strictEqual(isFunction(DataView), true)
-  })
+test('isFunction should return `true` for array view constructors', (t) => {
+  t.is(isFunction(Float32Array), true)
+  t.is(isFunction(Float64Array), true)
+  t.is(isFunction(Int8Array), true)
+  t.is(isFunction(Int16Array), true)
+  t.is(isFunction(Uint8Array), true)
+  t.is(isFunction(Uint8ClampedArray), true)
+  t.is(isFunction(Uint16Array), true)
+  t.is(isFunction(Uint32Array), true)
+  t.is(isFunction(DataView), true)
+})
 
-  it('should return `false` for non-functions', () => {
-    assert.strictEqual(isFunction(function () { return arguments }.apply(undefined, [1, 2, 3])), false) // eslint-disable-line no-useless-call
-    assert.strictEqual(isFunction([1, 2, 3]), false)
-    assert.strictEqual(isFunction(true), false)
-    assert.strictEqual(isFunction(false), false)
-    assert.strictEqual(isFunction(new Date()), false)
-    assert.strictEqual(isFunction(new Error()), false)
-    assert.strictEqual(isFunction({ a: 1 }), false)
-    assert.strictEqual(isFunction(0), false)
-    assert.strictEqual(isFunction(/x/), false)
-    assert.strictEqual(isFunction('a'), false)
-    assert.strictEqual(isFunction(Symbol('test')), false)
-    assert.strictEqual(isFunction(null), false)
-    assert.strictEqual(isFunction(undefined), false)
-    assert.strictEqual(isFunction(NaN), false)
-    assert.strictEqual(isFunction(''), false)
-  })
+test('isFunction should return `false` for non-functions', (t) => {
+  t.is(isFunction(function () { return arguments }.apply(undefined, [1, 2, 3])), false) // eslint-disable-line no-useless-call
+  t.is(isFunction([1, 2, 3]), false)
+  t.is(isFunction(true), false)
+  t.is(isFunction(false), false)
+  t.is(isFunction(new Date()), false)
+  t.is(isFunction(new Error()), false)
+  t.is(isFunction({ a: 1 }), false)
+  t.is(isFunction(0), false)
+  t.is(isFunction(/x/), false)
+  t.is(isFunction('a'), false)
+  t.is(isFunction(Symbol('test')), false)
+  t.is(isFunction(null), false)
+  t.is(isFunction(undefined), false)
+  t.is(isFunction(NaN), false)
+  t.is(isFunction(''), false)
 })

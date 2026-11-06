@@ -1,32 +1,28 @@
 'use strict'
 
-/* eslint-env mocha */
-
-const assert = require('assert')
+const test = require('brittle')
 const isBoolean = require('../src/isBoolean')
 
-describe('isBoolean', () => {
-  it('should return true for true', () => {
-    assert.strictEqual(isBoolean(true), true)
-  })
+test('isBoolean should return true for true', (t) => {
+  t.is(isBoolean(true), true)
+})
 
-  it('should return true for false', () => {
-    assert.strictEqual(isBoolean(false), true)
-  })
+test('isBoolean should return true for false', (t) => {
+  t.is(isBoolean(false), true)
+})
 
-  it('should return false for string', () => {
-    assert.strictEqual(isBoolean('true'), false)
-  })
+test('isBoolean should return false for string', (t) => {
+  t.is(isBoolean('true'), false)
+})
 
-  it('should return false for number', () => {
-    assert.strictEqual(isBoolean(1), false)
-  })
+test('isBoolean should return false for number', (t) => {
+  t.is(isBoolean(1), false)
+})
 
-  it('should return false for null', () => {
-    assert.strictEqual(isBoolean(null), false)
-  })
+test('isBoolean should return false for null', (t) => {
+  t.is(isBoolean(null), false)
+})
 
-  it('should return false for undefined', () => {
-    assert.strictEqual(isBoolean(undefined), false)
-  })
+test('isBoolean should return false for undefined', (t) => {
+  t.is(isBoolean(undefined), false)
 })

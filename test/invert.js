@@ -1,26 +1,25 @@
 'use strict'
 
+const test = require('brittle')
+const alikePlain = require('./helpers/alikePlain')
 /* eslint-env jest */
 
-const assert = require('assert')
 const invert = require('../src/invert')
 
-describe('invert', () => {
-  it('should invert an object', () => {
-    const object = { a: 1, b: 2 }
-    const actual = invert(object)
+test('invert should invert an object', (t) => {
+  const object = { a: 1, b: 2 }
+  const actual = invert(object)
 
-    assert.deepStrictEqual(actual, { 1: 'a', 2: 'b' })
-    assert.deepStrictEqual(invert(actual), { a: '1', b: '2' })
-  })
+  alikePlain(t, actual, { 1: 'a', 2: 'b' })
+  alikePlain(t, invert(actual), { a: '1', b: '2' })
+})
 
-  it('should work with values that shadow keys on `Object.prototype`', () => {
-    const object = { a: 'hasOwnProperty', b: 'constructor' }
-    assert.deepStrictEqual(invert(object), { hasOwnProperty: 'a', constructor: 'b' })
-  })
+test('invert should work with values that shadow keys on `Object.prototype`', (t) => {
+  const object = { a: 'hasOwnProperty', b: 'constructor' }
+  alikePlain(t, invert(object), { hasOwnProperty: 'a', constructor: 'b' })
+})
 
-  it('should work with an object that has a `length` property', () => {
-    const object = { 0: 'a', 1: 'b', length: 2 }
-    assert.deepStrictEqual(invert(object), { a: '0', b: '1', 2: 'length' })
-  })
+test('invert should work with an object that has a `length` property', (t) => {
+  const object = { 0: 'a', 1: 'b', length: 2 }
+  alikePlain(t, invert(object), { a: '0', b: '1', 2: 'length' })
 })

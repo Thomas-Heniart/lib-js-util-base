@@ -1,39 +1,36 @@
 'use strict'
 
-/* eslint-env mocha */
-const assert = require('assert')
+const test = require('brittle')
 const isUndefined = require('../src/isUndefined')
 
-describe('isUndefined', () => {
-  it('should return true for undefined', () => {
-    assert.ok(isUndefined(undefined))
-  })
+test('isUndefined should return true for undefined', (t) => {
+  t.ok(isUndefined(undefined))
+})
 
-  it('should return true for no param', () => {
-    assert.ok(isUndefined())
-  })
+test('isUndefined should return true for no param', (t) => {
+  t.ok(isUndefined())
+})
 
-  it('should return false for empty object', () => {
-    assert.equal(isUndefined({}), false)
-  })
+test('isUndefined should return false for empty object', (t) => {
+  t.is(isUndefined({}), false)
+})
 
-  it('should return false for empty array', () => {
-    assert.equal(isUndefined([]), false)
-  })
+test('isUndefined should return false for empty array', (t) => {
+  t.is(isUndefined([]), false)
+})
 
-  it('should return false for null', () => {
-    assert.equal(isUndefined(null), false)
-  })
+test('isUndefined should return false for null', (t) => {
+  t.is(isUndefined(null), false)
+})
 
-  it('should return false for false', () => {
-    assert.equal(isUndefined(false), false)
-  })
+test('isUndefined should return false for false', (t) => {
+  t.is(isUndefined(false), false)
+})
 
-  it('should return false for empty string', () => {
-    assert.equal(isUndefined(''), false)
-  })
+test('isUndefined should return false for empty string', (t) => {
+  t.is(isUndefined(''), false)
+})
 
-  it('should return false for zero', () => {
-    assert.equal(isUndefined(0), false)
-  })
+test('isUndefined should return false for zero', (t) => {
+  t.is(isUndefined(0), false)
 })

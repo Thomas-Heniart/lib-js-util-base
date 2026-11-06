@@ -1,36 +1,32 @@
 'use strict'
 
-/* eslint-env mocha */
-
-const assert = require('assert')
+const test = require('brittle')
 const max = require('../src/max')
 
-describe('max', () => {
-  it('should return the largest value from a collection', () => {
-    const actual = max([4, null, 2, 8, 6])
+test('max should return the largest value from a collection', (t) => {
+  const actual = max([4, null, 2, 8, 6])
 
-    assert.strictEqual(actual, 8)
-  })
+  t.is(actual, 8)
+})
 
-  it('should return `undefined` without arguments', () => {
-    const actual = max()
+test('max should return `undefined` without arguments', (t) => {
+  const actual = max()
 
-    assert.strictEqual(actual, undefined)
-  })
+  t.is(actual, undefined)
+})
 
-  it('should return `undefined` for empty collections', () => {
-    const sources = [null, undefined, false, 0, NaN, '', Symbol('a'), []]
+test('max should return `undefined` for empty collections', (t) => {
+  const sources = [null, undefined, false, 0, NaN, '', Symbol('a'), []]
 
-    for (const source of sources) {
-      const actual = max(source)
+  for (const source of sources) {
+    const actual = max(source)
 
-      assert.strictEqual(actual, undefined)
-    }
-  })
+    t.is(actual, undefined)
+  }
+})
 
-  it('should return the largest value from a string collection', () => {
-    const actual = max(['cd', null, 'ab', 'gh', 'ef'])
+test('max should return the largest value from a string collection', (t) => {
+  const actual = max(['cd', null, 'ab', 'gh', 'ef'])
 
-    assert.strictEqual(actual, 'gh')
-  })
+  t.is(actual, 'gh')
 })

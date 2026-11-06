@@ -2,6 +2,7 @@
 
 const isPlainObject = require('./isPlainObject')
 const cloneObj = require('./util/cloneObj')
+const { assertSafeKey } = require('./util/assertSafePath')
 
 /**
  * This method is like `assign` except that it recursively merges own and
@@ -26,6 +27,7 @@ const merge = (target, ...sources) => {
     const keys = Object.keys(source)
 
     for (const key of keys) {
+      assertSafeKey(key)
       const targetValue = clone[key]
       const sourceValue = source[key]
 

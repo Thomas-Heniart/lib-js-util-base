@@ -5,7 +5,7 @@ const unset = require('./unset')
 
 const omit = (obj, keys) => {
   if (obj === null || obj === undefined) {
-    return {}
+    return Object.create(null)
   }
 
   const result = cloneDeep(obj)

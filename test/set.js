@@ -1,119 +1,115 @@
 'use strict'
 
-/* eslint-env mocha */
-
-const assert = require('assert')
+const test = require('brittle')
 const set = require('../src/set')
 
-describe('set', () => {
-  it('should return the same value if obj is null', () => {
-    const obj = null
-    const result = set(obj, 'a', 'foo')
-    assert.strictEqual(result, null)
-  })
+test('set should return the same value if obj is null', (t) => {
+  const obj = null
+  const result = set(obj, 'a', 'foo')
+  t.is(result, null)
+})
 
-  it('should return the same value if obj is undefined', () => {
-    const obj = undefined
-    const result = set(obj, 'a', 'foo')
-    assert.strictEqual(result, undefined)
-  })
+test('set should return the same value if obj is undefined', (t) => {
+  const obj = undefined
+  const result = set(obj, 'a', 'foo')
+  t.is(result, undefined)
+})
 
-  it('should return the same value if obj is false', () => {
-    const obj = false
-    const result = set(obj, 'a', 'foo')
-    assert.strictEqual(result, false)
-  })
+test('set should return the same value if obj is false', (t) => {
+  const obj = false
+  const result = set(obj, 'a', 'foo')
+  t.is(result, false)
+})
 
-  it('should return the same value if obj is 0', () => {
-    const obj = 0
-    const result = set(obj, 'a', 'foo')
-    assert.strictEqual(result, 0)
-  })
+test('set should return the same value if obj is 0', (t) => {
+  const obj = 0
+  const result = set(obj, 'a', 'foo')
+  t.is(result, 0)
+})
 
-  it('should return the same value if obj is empty string', () => {
-    const obj = ''
-    const result = set(obj, 'a', 'foo')
-    assert.strictEqual(result, '')
-  })
+test('set should return the same value if obj is empty string', (t) => {
+  const obj = ''
+  const result = set(obj, 'a', 'foo')
+  t.is(result, '')
+})
 
-  it('should set value at path', () => {
-    const obj = {}
-    const result = set(obj, 'a', 'foo')
-    assert.strictEqual(result.a, 'foo')
-    assert.strictEqual(result, obj)
-  })
+test('set should set value at path', (t) => {
+  const obj = {}
+  const result = set(obj, 'a', 'foo')
+  t.is(result.a, 'foo')
+  t.is(result, obj)
+})
 
-  it('should set nested value', () => {
-    const obj = {}
-    set(obj, 'a.b.c', 'foo')
-    assert.strictEqual(obj.a.b.c, 'foo')
-  })
+test('set should set nested value', (t) => {
+  const obj = {}
+  set(obj, 'a.b.c', 'foo')
+  t.is(obj.a.b.c, 'foo')
+})
 
-  it('should set value with array path', () => {
-    const obj = {}
-    set(obj, ['a', 'b'], 'foo')
-    assert.strictEqual(obj.a.b, 'foo')
-  })
+test('set should set value with array path', (t) => {
+  const obj = {}
+  set(obj, ['a', 'b'], 'foo')
+  t.is(obj.a.b, 'foo')
+})
 
-  it('should set value with bracket notation', () => {
-    const obj = {}
-    set(obj, 'a[b]', 'foo')
-    assert.strictEqual(obj.a.b, 'foo')
-  })
+test('set should set value with bracket notation', (t) => {
+  const obj = {}
+  set(obj, 'a[b]', 'foo')
+  t.is(obj.a.b, 'foo')
+})
 
-  it('should create intermediate objects', () => {
-    const obj = {}
-    set(obj, 'a.b.c', 'foo')
-    assert.strictEqual(typeof obj.a, 'object')
-    assert.strictEqual(typeof obj.a.b, 'object')
-    assert.strictEqual(obj.a.b.c, 'foo')
-  })
+test('set should create intermediate objects', (t) => {
+  const obj = {}
+  set(obj, 'a.b.c', 'foo')
+  t.is(typeof obj.a, 'object')
+  t.is(typeof obj.a.b, 'object')
+  t.is(obj.a.b.c, 'foo')
+})
 
-  it('should overwrite existing non-object values with objects', () => {
-    const obj = { a: 'string' }
-    set(obj, 'a.b', 'foo')
-    assert.strictEqual(typeof obj.a, 'object')
-    assert.strictEqual(obj.a.b, 'foo')
-  })
+test('set should overwrite existing non-object values with objects', (t) => {
+  const obj = { a: 'string' }
+  set(obj, 'a.b', 'foo')
+  t.is(typeof obj.a, 'object')
+  t.is(obj.a.b, 'foo')
+})
 
-  it('should overwrite existing number values with objects', () => {
-    const obj = { a: 123 }
-    set(obj, 'a.b', 'foo')
-    assert.strictEqual(typeof obj.a, 'object')
-    assert.strictEqual(obj.a.b, 'foo')
-  })
+test('set should overwrite existing number values with objects', (t) => {
+  const obj = { a: 123 }
+  set(obj, 'a.b', 'foo')
+  t.is(typeof obj.a, 'object')
+  t.is(obj.a.b, 'foo')
+})
 
-  it('should handle empty path array', () => {
-    const obj = { a: 'foo' }
-    const result = set(obj, [], 'bar')
-    assert.deepStrictEqual(result, obj)
-    assert.strictEqual(obj.a, 'foo')
-  })
+test('set should handle empty path array', (t) => {
+  const obj = { a: 'foo' }
+  const result = set(obj, [], 'bar')
+  t.alike(result, obj)
+  t.is(obj.a, 'foo')
+})
 
-  it('should handle single segment path', () => {
-    const obj = {}
-    set(obj, 'a', 'foo')
-    assert.strictEqual(obj.a, 'foo')
-  })
+test('set should handle single segment path', (t) => {
+  const obj = {}
+  set(obj, 'a', 'foo')
+  t.is(obj.a, 'foo')
+})
 
-  it('should preserve existing object values when creating nested paths', () => {
-    const obj = { a: { existing: 'value' } }
-    set(obj, 'a.b', 'foo')
-    assert.strictEqual(obj.a.existing, 'value')
-    assert.strictEqual(obj.a.b, 'foo')
-  })
+test('set should preserve existing object values when creating nested paths', (t) => {
+  const obj = { a: { existing: 'value' } }
+  set(obj, 'a.b', 'foo')
+  t.is(obj.a.existing, 'value')
+  t.is(obj.a.b, 'foo')
+})
 
-  it('should handle array values at intermediate paths', () => {
-    const obj = { a: [1, 2, 3] }
-    set(obj, 'a.b', 'foo')
-    assert.strictEqual(obj.a.b, 'foo')
-    assert.deepStrictEqual(obj.a.slice(0, 3), [1, 2, 3])
-  })
+test('set should handle array values at intermediate paths', (t) => {
+  const obj = { a: [1, 2, 3] }
+  set(obj, 'a.b', 'foo')
+  t.is(obj.a.b, 'foo')
+  t.alike(obj.a.slice(0, 3), [1, 2, 3])
+})
 
-  it('should handle null values at intermediate paths', () => {
-    const obj = { a: null }
-    set(obj, 'a.b', 'foo')
-    assert.strictEqual(typeof obj.a, 'object')
-    assert.strictEqual(obj.a.b, 'foo')
-  })
+test('set should handle null values at intermediate paths', (t) => {
+  const obj = { a: null }
+  set(obj, 'a.b', 'foo')
+  t.is(typeof obj.a, 'object')
+  t.is(obj.a.b, 'foo')
 })

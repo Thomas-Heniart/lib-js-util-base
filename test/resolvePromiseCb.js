@@ -1,32 +1,32 @@
 'use strict'
 
-/* eslint-env mocha */
-
-const assert = require('assert')
+const test = require('brittle')
 const resolvePromiseCb = require('../src/resolvePromiseCb')
 
-describe('resolvePromiseCb', () => {
-  it('should handle callback errors', (done) => {
-    resolvePromiseCb(new Error('foo'), null, (err) => {
-      assert.strictEqual(err.message, 'foo')
-      done()
-    })
+test('resolvePromiseCb should handle callback errors', (t) => {
+  let called = false
+  resolvePromiseCb(new Error('foo'), null, (err) => {
+    called = true
+    t.is(err.message, 'foo')
   })
+  t.is(called, true)
+})
 
-  it('should handle promise rejections', async () => {
-    await assert.rejects(resolvePromiseCb(new Error('foo')), { message: 'foo' })
-  })
+test('resolvePromiseCb should handle promise rejections', async (t) => {
+  await t.exception(resolvePromiseCb(new Error('foo')), { message: 'foo' })
+})
 
-  it('should handle callback results', (done) => {
-    resolvePromiseCb(null, 'foo', (err, res) => {
-      assert.strictEqual(err, null)
-      assert.strictEqual(res, 'foo')
-      done()
-    })
+test('resolvePromiseCb should handle callback results', (t) => {
+  let called = false
+  resolvePromiseCb(null, 'foo', (err, res) => {
+    called = true
+    t.is(err, null)
+    t.is(res, 'foo')
   })
+  t.is(called, true)
+})
 
-  it('should handle promise resolves', async () => {
-    const res = await resolvePromiseCb(null, 'foo')
-    assert.strictEqual(res, 'foo')
-  })
+test('resolvePromiseCb should handle promise resolves', async (t) => {
+  const res = await resolvePromiseCb(null, 'foo')
+  t.is(res, 'foo')
 })

@@ -10,12 +10,12 @@
 const groupBy = (array, key) => {
   return array.reduce((result, item) => {
     const groupKey = typeof key === 'function' ? key(item) : item[key]
-    if (!result[groupKey]) {
+    if (!Object.hasOwn(result, groupKey)) {
       result[groupKey] = []
     }
     result[groupKey].push(item)
     return result
-  }, {})
+  }, Object.create(null))
 }
 
 module.exports = groupBy

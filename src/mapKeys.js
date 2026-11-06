@@ -18,10 +18,10 @@ const mapKeys = (obj, mapper) => {
 
   const clone = cloneObj(obj)
 
-  return Object.entries(clone).reduce((acc, [key, value]) => ({
-    ...acc,
-    [mapper(value, key, clone)]: value
-  }), {})
+  return Object.entries(clone).reduce((acc, [key, value]) => {
+    acc[mapper(value, key, clone)] = value
+    return acc
+  }, Object.create(null))
 }
 
 module.exports = mapKeys

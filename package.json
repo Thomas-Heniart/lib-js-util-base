@@ -1,14 +1,13 @@
 {
   "name": "@bitfinex/lib-js-util-base",
-  "version": "2.1.0",
+  "version": "3.0.0",
   "description": "general utils",
   "main": "index.js",
   "scripts": {
-    "coverage": "nyc --reporter=html mocha test/",
-    "lint": "standard",
-    "lint:fix": "standard --fix",
+    "lint": "bfx-lint-js .",
+    "lint:fix": "bfx-lint-js . --fix",
     "test": "npm run lint && npm run test:unit",
-    "test:unit": "NODE_ENV=test mocha test/"
+    "test:unit": "NODE_ENV=test brittle-node 'test/*.js'"
   },
   "repository": {
     "type": "git",
@@ -33,9 +32,10 @@
   },
   "homepage": "https://github.com/bitfinexcom/lib-js-util-base#readme",
   "devDependencies": {
-    "mocha": "10.8.2",
-    "mocha-it-each": "1.0.2",
-    "nyc": "15.1.0",
-    "standard": "17.1.0"
+    "@bitfinex/lint-js": "^1.1.0",
+    "brittle": "^4.5.0"
+  },
+  "engines": {
+    "node": ">=22.0"
   }
 }

@@ -1,54 +1,50 @@
 'use strict'
 
-/* eslint-env mocha */
-
-const assert = require('assert')
+const test = require('brittle')
 const { isPlainObject } = require('../index')
 
-describe('isPlainObject', () => {
-  it('should return true for a plain object', () => {
-    assert.strictEqual(isPlainObject({}), true)
-    assert.strictEqual(isPlainObject({ key: 'value' }), true)
-    // eslint-disable-next-line no-new-object
-    assert.strictEqual(isPlainObject(new Object()), true)
-    // eslint-disable-next-line no-new-object
-    assert.strictEqual(isPlainObject(new Object({ key: 'value ' })), true)
-  })
+test('isPlainObject should return true for a plain object', (t) => {
+  t.is(isPlainObject({}), true)
+  t.is(isPlainObject({ key: 'value' }), true)
+  // eslint-disable-next-line no-new-object
+  t.is(isPlainObject(new Object()), true)
+  // eslint-disable-next-line no-new-object
+  t.is(isPlainObject(new Object({ key: 'value ' })), true)
+})
 
-  it('should return false for an array', () => {
-    assert.strictEqual(isPlainObject([]), false)
-  })
+test('isPlainObject should return false for an array', (t) => {
+  t.is(isPlainObject([]), false)
+})
 
-  it('should return false for a function', () => {
-    assert.strictEqual(isPlainObject(() => { }), false)
-  })
+test('isPlainObject should return false for a function', (t) => {
+  t.is(isPlainObject(() => { }), false)
+})
 
-  it('should return false for a date', () => {
-    assert.strictEqual(isPlainObject(new Date()), false)
-  })
+test('isPlainObject should return false for a date', (t) => {
+  t.is(isPlainObject(new Date()), false)
+})
 
-  it('should return false for a number', () => {
-    assert.strictEqual(isPlainObject(42), false)
-  })
+test('isPlainObject should return false for a number', (t) => {
+  t.is(isPlainObject(42), false)
+})
 
-  it('should return false for a string', () => {
-    assert.strictEqual(isPlainObject('test'), false)
-  })
+test('isPlainObject should return false for a string', (t) => {
+  t.is(isPlainObject('test'), false)
+})
 
-  it('should return false for null', () => {
-    assert.strictEqual(isPlainObject(null), false)
-  })
+test('isPlainObject should return false for null', (t) => {
+  t.is(isPlainObject(null), false)
+})
 
-  it('should return false for undefined', () => {
-    assert.strictEqual(isPlainObject(undefined), false)
-  })
+test('isPlainObject should return false for undefined', (t) => {
+  t.is(isPlainObject(undefined), false)
+})
 
-  it('should return false for a boolean value', () => {
-    assert.strictEqual(isPlainObject(true), false)
-    assert.strictEqual(isPlainObject(false), false)
-  })
+test('isPlainObject should return false for a boolean value', (t) => {
+  t.is(isPlainObject(true), false)
+  t.is(isPlainObject(false), false)
+})
 
-  it('should return false for a symbol', () => {
-    assert.strictEqual(isPlainObject(Symbol('test')), false)
-  })
+test('isPlainObject should return false for a symbol', (t) => {
+  t.is(isPlainObject(Symbol('test')), false)
 })

@@ -1,347 +1,343 @@
 'use strict'
 
-/* eslint-env mocha */
-
-const assert = require('assert')
+const test = require('brittle')
 const { orderBy } = require('../index')
 
-describe('orderBy', () => {
-  it('should order array of objects by name prop in desc', () => {
-    const mockedArr = [
-      { name: 'aaa' },
-      { name: 'www' },
-      { name: 'bbb' },
-      { name: 'yyy' }
-    ]
+test('orderBy should order array of objects by name prop in desc', (t) => {
+  const mockedArr = [
+    { name: 'aaa' },
+    { name: 'www' },
+    { name: 'bbb' },
+    { name: 'yyy' }
+  ]
 
-    const orderedArr = orderBy(mockedArr, ['name'], ['desc'])
+  const orderedArr = orderBy(mockedArr, ['name'], ['desc'])
 
-    assert.deepStrictEqual(orderedArr, [
-      { name: 'yyy' },
-      { name: 'www' },
-      { name: 'bbb' },
-      { name: 'aaa' }
-    ])
-  })
+  t.alike(orderedArr, [
+    { name: 'yyy' },
+    { name: 'www' },
+    { name: 'bbb' },
+    { name: 'aaa' }
+  ])
+})
 
-  it('should order array of objects by name prop in asc', () => {
-    const mockedArr = [
-      { name: 'aaa' },
-      { name: 'www' },
-      { name: 'bbb' },
-      { name: 'yyy' }
-    ]
+test('orderBy should order array of objects by name prop in asc', (t) => {
+  const mockedArr = [
+    { name: 'aaa' },
+    { name: 'www' },
+    { name: 'bbb' },
+    { name: 'yyy' }
+  ]
 
-    const orderedArr = orderBy(mockedArr, ['name'], ['asc'])
+  const orderedArr = orderBy(mockedArr, ['name'], ['asc'])
 
-    assert.deepStrictEqual(orderedArr, [
-      { name: 'aaa' },
-      { name: 'bbb' },
-      { name: 'www' },
-      { name: 'yyy' }
-    ])
-  })
+  t.alike(orderedArr, [
+    { name: 'aaa' },
+    { name: 'bbb' },
+    { name: 'www' },
+    { name: 'yyy' }
+  ])
+})
 
-  it('should order array of objects by name and value props in desc and asc', () => {
-    const mockedArr = [
-      { name: 'aaa', value: 't' },
-      { name: 'www', value: 'b' },
-      { name: 'bbb', value: 'f' },
-      { name: 'www', value: 'a' },
-      { name: 'yyy' }
-    ]
+test('orderBy should order array of objects by name and value props in desc and asc', (t) => {
+  const mockedArr = [
+    { name: 'aaa', value: 't' },
+    { name: 'www', value: 'b' },
+    { name: 'bbb', value: 'f' },
+    { name: 'www', value: 'a' },
+    { name: 'yyy' }
+  ]
 
-    const orderedArr = orderBy(
-      mockedArr,
-      ['name', 'value'],
-      ['desc', 'asc']
-    )
+  const orderedArr = orderBy(
+    mockedArr,
+    ['name', 'value'],
+    ['desc', 'asc']
+  )
 
-    assert.deepStrictEqual(orderedArr, [
-      { name: 'yyy' },
-      { name: 'www', value: 'a' },
-      { name: 'www', value: 'b' },
-      { name: 'bbb', value: 'f' },
-      { name: 'aaa', value: 't' }
-    ])
-  })
+  t.alike(orderedArr, [
+    { name: 'yyy' },
+    { name: 'www', value: 'a' },
+    { name: 'www', value: 'b' },
+    { name: 'bbb', value: 'f' },
+    { name: 'aaa', value: 't' }
+  ])
+})
 
-  it('should order array of objects by name and value props in asc by default', () => {
-    const mockedArr = [
-      { name: 'aaa', value: 't' },
-      { name: 'www', value: 'b' },
-      { name: 'bbb', value: 'f' },
-      { name: 'www', value: 'a' },
-      { name: 'yyy' }
-    ]
+test('orderBy should order array of objects by name and value props in asc by default', (t) => {
+  const mockedArr = [
+    { name: 'aaa', value: 't' },
+    { name: 'www', value: 'b' },
+    { name: 'bbb', value: 'f' },
+    { name: 'www', value: 'a' },
+    { name: 'yyy' }
+  ]
 
-    const orderedArr = orderBy(
-      mockedArr,
-      ['name', 'value']
-    )
+  const orderedArr = orderBy(
+    mockedArr,
+    ['name', 'value']
+  )
 
-    assert.deepStrictEqual(orderedArr, [
-      { name: 'aaa', value: 't' },
-      { name: 'bbb', value: 'f' },
-      { name: 'www', value: 'a' },
-      { name: 'www', value: 'b' },
-      { name: 'yyy' }
-    ])
-  })
+  t.alike(orderedArr, [
+    { name: 'aaa', value: 't' },
+    { name: 'bbb', value: 'f' },
+    { name: 'www', value: 'a' },
+    { name: 'www', value: 'b' },
+    { name: 'yyy' }
+  ])
+})
 
-  it('should order array of objects by name prop in desc using dot syntax', () => {
-    const mockedArr = [
-      { nestedObj: { name: 'aaa' } },
-      { nestedObj: { name: 'www' } },
-      { nestedObj: { name: 'bbb' } },
-      { nestedObj: { name: 'yyy' } }
-    ]
+test('orderBy should order array of objects by name prop in desc using dot syntax', (t) => {
+  const mockedArr = [
+    { nestedObj: { name: 'aaa' } },
+    { nestedObj: { name: 'www' } },
+    { nestedObj: { name: 'bbb' } },
+    { nestedObj: { name: 'yyy' } }
+  ]
 
-    const orderedArr = orderBy(
-      mockedArr,
-      ['nestedObj.name'],
-      ['desc']
-    )
+  const orderedArr = orderBy(
+    mockedArr,
+    ['nestedObj.name'],
+    ['desc']
+  )
 
-    assert.deepStrictEqual(orderedArr, [
-      { nestedObj: { name: 'yyy' } },
-      { nestedObj: { name: 'www' } },
-      { nestedObj: { name: 'bbb' } },
-      { nestedObj: { name: 'aaa' } }
-    ])
-  })
+  t.alike(orderedArr, [
+    { nestedObj: { name: 'yyy' } },
+    { nestedObj: { name: 'www' } },
+    { nestedObj: { name: 'bbb' } },
+    { nestedObj: { name: 'aaa' } }
+  ])
+})
 
-  it('should order array of objects by second item of array in desc using fn', () => {
-    const mockedArr = [
-      { nestedObj: { arr: [0, 'aaa'] } },
-      { nestedObj: { arr: [0, 'www'] } },
-      { nestedObj: { arr: [0, 'bbb'] } },
-      { nestedObj: { arr: [0, 'yyy'] } }
-    ]
+test('orderBy should order array of objects by second item of array in desc using fn', (t) => {
+  const mockedArr = [
+    { nestedObj: { arr: [0, 'aaa'] } },
+    { nestedObj: { arr: [0, 'www'] } },
+    { nestedObj: { arr: [0, 'bbb'] } },
+    { nestedObj: { arr: [0, 'yyy'] } }
+  ]
 
-    const orderedArr = orderBy(
-      mockedArr,
-      [(item) => item?.nestedObj?.arr?.[1]],
-      ['desc']
-    )
+  const orderedArr = orderBy(
+    mockedArr,
+    [(item) => item?.nestedObj?.arr?.[1]],
+    ['desc']
+  )
 
-    assert.deepStrictEqual(orderedArr, [
-      { nestedObj: { arr: [0, 'yyy'] } },
-      { nestedObj: { arr: [0, 'www'] } },
-      { nestedObj: { arr: [0, 'bbb'] } },
-      { nestedObj: { arr: [0, 'aaa'] } }
-    ])
-  })
+  t.alike(orderedArr, [
+    { nestedObj: { arr: [0, 'yyy'] } },
+    { nestedObj: { arr: [0, 'www'] } },
+    { nestedObj: { arr: [0, 'bbb'] } },
+    { nestedObj: { arr: [0, 'aaa'] } }
+  ])
+})
 
-  it('should order array of array by index in desc', () => {
-    const mockedArr = [
-      ['name', 'aaa'],
-      ['name', 'www'],
-      ['name', 'bbb'],
-      ['name', 'yyy']
-    ]
+test('orderBy should order array of array by index in desc', (t) => {
+  const mockedArr = [
+    ['name', 'aaa'],
+    ['name', 'www'],
+    ['name', 'bbb'],
+    ['name', 'yyy']
+  ]
 
-    const orderedArr = orderBy(mockedArr, [1], ['desc'])
+  const orderedArr = orderBy(mockedArr, [1], ['desc'])
 
-    assert.deepStrictEqual(orderedArr, [
-      ['name', 'yyy'],
-      ['name', 'www'],
-      ['name', 'bbb'],
-      ['name', 'aaa']
-    ])
-  })
+  t.alike(orderedArr, [
+    ['name', 'yyy'],
+    ['name', 'www'],
+    ['name', 'bbb'],
+    ['name', 'aaa']
+  ])
+})
 
-  it('should order array by index in desc', () => {
-    const mockedArr = ['aaa', 'www', 'bbb', 'yyy']
+test('orderBy should order array by index in desc', (t) => {
+  const mockedArr = ['aaa', 'www', 'bbb', 'yyy']
 
-    const orderedArr = orderBy(mockedArr, [(item) => item], ['desc'])
+  const orderedArr = orderBy(mockedArr, [(item) => item], ['desc'])
 
-    assert.deepStrictEqual(orderedArr, ['yyy', 'www', 'bbb', 'aaa'])
-  })
+  t.alike(orderedArr, ['yyy', 'www', 'bbb', 'aaa'])
+})
 
-  it('should order iterable object (Set) of objects by name prop in desc', () => {
-    const mockedSet = new Set([
-      { name: 'aaa' },
-      { name: 'www' },
-      { name: 'bbb' },
-      { name: 'yyy' }
-    ])
+test('orderBy should order iterable object (Set) of objects by name prop in desc', (t) => {
+  const mockedSet = new Set([
+    { name: 'aaa' },
+    { name: 'www' },
+    { name: 'bbb' },
+    { name: 'yyy' }
+  ])
 
-    const orderedArr = orderBy(mockedSet, ['name'], ['desc'])
+  const orderedArr = orderBy(mockedSet, ['name'], ['desc'])
 
-    // If iterable object is required, just create it after ordering
-    assert.deepStrictEqual(orderedArr, [
-      { name: 'yyy' },
-      { name: 'www' },
-      { name: 'bbb' },
-      { name: 'aaa' }
-    ])
-  })
+  // If iterable object is required, just create it after ordering
+  t.alike(orderedArr, [
+    { name: 'yyy' },
+    { name: 'www' },
+    { name: 'bbb' },
+    { name: 'aaa' }
+  ])
+})
 
-  it('should order iterable object (Map) of objects by name prop and key in desc', () => {
-    const mockedMap = new Map([
-      ['key1', { name: 'aaa' }],
-      ['key2', { name: 'www' }],
-      ['key3', { name: 'bbb' }],
-      ['key4', { name: 'yyy' }]
-    ])
+test('orderBy should order iterable object (Map) of objects by name prop and key in desc', (t) => {
+  const mockedMap = new Map([
+    ['key1', { name: 'aaa' }],
+    ['key2', { name: 'www' }],
+    ['key3', { name: 'bbb' }],
+    ['key4', { name: 'yyy' }]
+  ])
 
-    const orderedArrByVal = orderBy(
-      mockedMap,
-      [([key, val]) => val?.name],
-      ['desc']
-    )
-    const orderedArrByKey = orderBy(
-      mockedMap,
-      [([key, val]) => key],
-      ['desc']
-    )
+  const orderedArrByVal = orderBy(
+    mockedMap,
+    [([key, val]) => val?.name],
+    ['desc']
+  )
+  const orderedArrByKey = orderBy(
+    mockedMap,
+    [([key, val]) => key],
+    ['desc']
+  )
 
-    // If iterable object is required, just create it after ordering
-    assert.deepStrictEqual(orderedArrByVal, [
-      ['key4', { name: 'yyy' }],
-      ['key2', { name: 'www' }],
-      ['key3', { name: 'bbb' }],
-      ['key1', { name: 'aaa' }]
-    ])
-    assert.deepStrictEqual(orderedArrByKey, [
-      ['key4', { name: 'yyy' }],
-      ['key3', { name: 'bbb' }],
-      ['key2', { name: 'www' }],
-      ['key1', { name: 'aaa' }]
-    ])
-  })
+  // If iterable object is required, just create it after ordering
+  t.alike(orderedArrByVal, [
+    ['key4', { name: 'yyy' }],
+    ['key2', { name: 'www' }],
+    ['key3', { name: 'bbb' }],
+    ['key1', { name: 'aaa' }]
+  ])
+  t.alike(orderedArrByKey, [
+    ['key4', { name: 'yyy' }],
+    ['key3', { name: 'bbb' }],
+    ['key2', { name: 'www' }],
+    ['key1', { name: 'aaa' }]
+  ])
+})
 
-  it('should order array of objects by name prop in desc with equal values', () => {
-    const mockedArr = [
-      { name: 'aaa' },
-      { name: 'www' },
-      { name: 'www' },
-      { name: 'bbb' },
-      { name: 'yyy' },
-      { name: 'aaa' }
-    ]
+test('orderBy should order array of objects by name prop in desc with equal values', (t) => {
+  const mockedArr = [
+    { name: 'aaa' },
+    { name: 'www' },
+    { name: 'www' },
+    { name: 'bbb' },
+    { name: 'yyy' },
+    { name: 'aaa' }
+  ]
 
-    const orderedArr = orderBy(mockedArr, ['name'], ['desc'])
+  const orderedArr = orderBy(mockedArr, ['name'], ['desc'])
 
-    assert.deepStrictEqual(orderedArr, [
-      { name: 'yyy' },
-      { name: 'www' },
-      { name: 'www' },
-      { name: 'bbb' },
-      { name: 'aaa' },
-      { name: 'aaa' }
-    ])
-  })
+  t.alike(orderedArr, [
+    { name: 'yyy' },
+    { name: 'www' },
+    { name: 'www' },
+    { name: 'bbb' },
+    { name: 'aaa' },
+    { name: 'aaa' }
+  ])
+})
 
-  it('should order array of objects by name prop in desc with null and undefined', () => {
-    const mockedArr = [
-      { name: undefined },
-      { name: 'aaa' },
-      { name: null },
-      { name: 'www' },
-      { name: null },
-      { name: undefined },
-      { name: null },
-      { name: 'bbb' },
-      { name: 'yyy' }
-    ]
+test('orderBy should order array of objects by name prop in desc with null and undefined', (t) => {
+  const mockedArr = [
+    { name: undefined },
+    { name: 'aaa' },
+    { name: null },
+    { name: 'www' },
+    { name: null },
+    { name: undefined },
+    { name: null },
+    { name: 'bbb' },
+    { name: 'yyy' }
+  ]
 
-    const orderedArr = orderBy(mockedArr, ['name'], ['desc'])
+  const orderedArr = orderBy(mockedArr, ['name'], ['desc'])
 
-    assert.deepStrictEqual(orderedArr, [
-      { name: 'yyy' },
-      { name: 'www' },
-      { name: 'bbb' },
-      { name: 'aaa' },
-      { name: undefined },
-      { name: null },
-      { name: null },
-      { name: undefined },
-      { name: null }
-    ])
-  })
+  t.alike(orderedArr, [
+    { name: 'yyy' },
+    { name: 'www' },
+    { name: 'bbb' },
+    { name: 'aaa' },
+    { name: undefined },
+    { name: null },
+    { name: null },
+    { name: undefined },
+    { name: null }
+  ])
+})
 
-  it('should order array of objects by name prop in asc with null and undefined', () => {
-    const mockedArr = [
-      { name: undefined },
-      { name: 'aaa' },
-      { name: null },
-      { name: 'www' },
-      { name: null },
-      { name: undefined },
-      { name: null },
-      { name: 'bbb' },
-      { name: 'yyy' }
-    ]
+test('orderBy should order array of objects by name prop in asc with null and undefined', (t) => {
+  const mockedArr = [
+    { name: undefined },
+    { name: 'aaa' },
+    { name: null },
+    { name: 'www' },
+    { name: null },
+    { name: undefined },
+    { name: null },
+    { name: 'bbb' },
+    { name: 'yyy' }
+  ]
 
-    const orderedArr = orderBy(mockedArr, ['name'], ['asc'])
+  const orderedArr = orderBy(mockedArr, ['name'], ['asc'])
 
-    assert.deepStrictEqual(orderedArr, [
-      { name: 'aaa' },
-      { name: 'bbb' },
-      { name: 'www' },
-      { name: 'yyy' },
-      { name: undefined },
-      { name: null },
-      { name: null },
-      { name: undefined },
-      { name: null }
-    ])
-  })
+  t.alike(orderedArr, [
+    { name: 'aaa' },
+    { name: 'bbb' },
+    { name: 'www' },
+    { name: 'yyy' },
+    { name: undefined },
+    { name: null },
+    { name: null },
+    { name: undefined },
+    { name: null }
+  ])
+})
 
-  it('should order array of objects by name prop in desc with null and undefined items', () => {
-    const mockedArr = [
-      { name: undefined },
-      { name: 'aaa' },
-      { name: null },
-      { name: 'www' },
-      null,
-      undefined,
-      { name: null },
-      { name: undefined },
-      { name: null },
-      { name: 'bbb' },
-      null,
-      { name: 'yyy' }
-    ]
+test('orderBy should order array of objects by name prop in desc with null and undefined items', (t) => {
+  const mockedArr = [
+    { name: undefined },
+    { name: 'aaa' },
+    { name: null },
+    { name: 'www' },
+    null,
+    undefined,
+    { name: null },
+    { name: undefined },
+    { name: null },
+    { name: 'bbb' },
+    null,
+    { name: 'yyy' }
+  ]
 
-    const orderedArr = orderBy(mockedArr, ['name'], ['desc'])
+  const orderedArr = orderBy(mockedArr, ['name'], ['desc'])
 
-    assert.deepStrictEqual(orderedArr, [
-      { name: 'yyy' },
-      { name: 'www' },
-      { name: 'bbb' },
-      { name: 'aaa' },
-      { name: undefined },
-      { name: null },
-      null,
-      undefined,
-      { name: null },
-      { name: undefined },
-      { name: null },
-      null
-    ])
-  })
+  t.alike(orderedArr, [
+    { name: 'yyy' },
+    { name: 'www' },
+    { name: 'bbb' },
+    { name: 'aaa' },
+    { name: undefined },
+    { name: null },
+    null,
+    undefined,
+    { name: null },
+    { name: undefined },
+    { name: null },
+    null
+  ])
+})
 
-  it('should throw TypeError if non-iterable object is ordered', () => {
-    assert.throws(
-      () => orderBy(null, ['name'], ['desc']),
-      TypeError
-    )
-  })
+test('orderBy should throw TypeError if non-iterable object is ordered', (t) => {
+  t.exception.all(
+    () => orderBy(null, ['name'], ['desc']),
+    TypeError
+  )
+})
 
-  it('should throw TypeError if non-iterable object is prop name list', () => {
-    const mockedArr = [
-      { name: 'aaa' },
-      { name: 'www' },
-      { name: 'bbb' },
-      { name: 'yyy' }
-    ]
+test('orderBy should throw TypeError if non-iterable object is prop name list', (t) => {
+  const mockedArr = [
+    { name: 'aaa' },
+    { name: 'www' },
+    { name: 'bbb' },
+    { name: 'yyy' }
+  ]
 
-    assert.throws(
-      () => orderBy(mockedArr, null, ['desc']),
-      TypeError
-    )
-  })
+  t.exception.all(
+    () => orderBy(mockedArr, null, ['desc']),
+    TypeError
+  )
 })

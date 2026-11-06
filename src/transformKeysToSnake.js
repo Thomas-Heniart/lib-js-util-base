@@ -20,12 +20,11 @@ const transformKeysToSnake = (obj, opts) => {
     return obj
   }
 
-  return Object.fromEntries(
-    Object.entries(obj).map(([k, v]) => [
-      snakeCase(k),
-      opts?.recursive ? transformKeysToSnake(v, opts) : v
-    ])
-  )
+  const result = Object.create(null)
+  for (const [key, value] of Object.entries(obj)) {
+    result[snakeCase(key)] = opts?.recursive ? transformKeysToSnake(value, opts) : value
+  }
+  return result
 }
 
 module.exports = transformKeysToSnake

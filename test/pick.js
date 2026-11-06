@@ -1,77 +1,74 @@
 'use strict'
 
-/* eslint-env mocha */
-
-const assert = require('assert')
+const test = require('brittle')
+const alikePlain = require('./helpers/alikePlain')
 const { pick } = require('../index')
 
-describe('pick', () => {
-  it('should return an empty object when input is null', () => {
-    assert.deepStrictEqual(pick(null, ['key']), {})
-  })
+test('pick should return an empty object when input is null', (t) => {
+  alikePlain(t, pick(null, ['key']), {})
+})
 
-  it('should return an empty object when keys array is empty', () => {
-    assert.deepStrictEqual(pick({ a: 1, b: 2 }, []), {})
-  })
+test('pick should return an empty object when keys array is empty', (t) => {
+  alikePlain(t, pick({ a: 1, b: 2 }, []), {})
+})
 
-  it('should return a new object with the picked properties', () => {
-    assert.deepStrictEqual(pick({ a: 1, b: 2, c: 3 }, ['a', 'c']), { a: 1, c: 3 })
-  })
+test('pick should return a new object with the picked properties', (t) => {
+  alikePlain(t, pick({ a: 1, b: 2, c: 3 }, ['a', 'c']), { a: 1, c: 3 })
+})
 
-  it('should ignore properties that are not in the keys array', () => {
-    assert.deepStrictEqual(pick({ a: 1, b: 2, c: 3 }, ['d', 'e']), {})
-  })
+test('pick should ignore properties that are not in the keys array', (t) => {
+  alikePlain(t, pick({ a: 1, b: 2, c: 3 }, ['d', 'e']), {})
+})
 
-  it('should return an empty object for an empty input object', () => {
-    assert.deepStrictEqual(pick({}, ['a', 'b']), {})
-  })
+test('pick should return an empty object for an empty input object', (t) => {
+  alikePlain(t, pick({}, ['a', 'b']), {})
+})
 
-  it('should handle keys that are not strings', () => {
-    assert.deepStrictEqual(pick({ 1: 'one', 2: 'two' }, ['1', '2']), { 1: 'one', 2: 'two' })
-  })
+test('pick should handle keys that are not strings', (t) => {
+  alikePlain(t, pick({ 1: 'one', 2: 'two' }, ['1', '2']), { 1: 'one', 2: 'two' })
+})
 
-  it('should pick properties by few path parameters', () => {
-    const src = { a: 1, b: 2, c: 3, d: 4 }
-    const expected = { a: 1, b: 2, d: 4 }
-    assert.deepStrictEqual(pick(src, ['a', 'b'], 'd'), expected)
-  })
+test('pick should pick properties by few path parameters', (t) => {
+  const src = { a: 1, b: 2, c: 3, d: 4 }
+  const expected = { a: 1, b: 2, d: 4 }
+  alikePlain(t, pick(src, ['a', 'b'], 'd'), expected)
+})
 
-  it('should pick nested properties by string or array path', () => {
-    const src = {
-      a: 1,
-      b: {
-        c: { d: 5, g: 2, h: 7 },
-        f: 6
-      },
-      e: 4
+test('pick should pick nested properties by string or array path', (t) => {
+  const src = {
+    a: 1,
+    b: {
+      c: { d: 5, g: 2, h: 7 },
+      f: 6
+    },
+    e: 4
+  }
+  const expected = {
+    a: 1,
+    b: {
+      c: { d: 5, h: 7 }
     }
-    const expected = {
-      a: 1,
-      b: {
-        c: { d: 5, h: 7 }
-      }
-    }
+  }
 
-    assert.deepStrictEqual(
-      pick(
-        src,
-        ['a', 'b.c.d', 'b.c.h'],
-        'd'
-      ),
-      expected
-    )
-    assert.deepStrictEqual(
-      pick(
-        src,
-        ['a', ['b', 'c', 'd'], ['b', 'c', 'h']],
-        'd'
-      ),
-      expected
-    )
-  })
+  alikePlain(t,
+    pick(
+      src,
+      ['a', 'b.c.d', 'b.c.h'],
+      'd'
+    ),
+    expected
+  )
+  alikePlain(t,
+    pick(
+      src,
+      ['a', ['b', 'c', 'd'], ['b', 'c', 'h']],
+      'd'
+    ),
+    expected
+  )
+})
 
-  it('should return empty object if path is not specified', () => {
-    const src = { a: 1, b: { c: { d: 5, g: 2, h: 7 }, f: 6 }, e: 4 }
-    assert.deepStrictEqual(pick(src, ''), {})
-  })
+test('pick should return empty object if path is not specified', (t) => {
+  const src = { a: 1, b: { c: { d: 5, g: 2, h: 7 }, f: 6 }, e: 4 }
+  alikePlain(t, pick(src, ''), {})
 })
