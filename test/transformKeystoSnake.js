@@ -1,6 +1,7 @@
 'use strict'
 
 const test = require('brittle')
+const alikePlain = require('./helpers/alikePlain')
 const { transformKeysToSnake } = require('../index')
 
 for (const [index, input] of [new Date(), null, false].entries()) {
@@ -34,7 +35,7 @@ test('transformKeysToSnake non recursive (default) should return input with snak
       { foo_bar: 'value', foo: 'value' }
     ]
   }
-  t.alike(transformKeysToSnake(input), output)
+  alikePlain(t, transformKeysToSnake(input), output)
 })
 
 test('transformKeysToSnake non recursive (default) should work with array mix of object and nested arrays', (t) => {
@@ -44,7 +45,7 @@ test('transformKeysToSnake non recursive (default) should work with array mix of
   const output = {
     mixed_array: [123, { someKey: 'value' }, [{ nestedArrayItem: 'test' }]]
   }
-  t.alike(transformKeysToSnake(input), output)
+  alikePlain(t, transformKeysToSnake(input), output)
 })
 
 for (const [index, input] of [new Date(), null, false].entries()) {
@@ -84,7 +85,7 @@ test('transformKeysToSnake recursive should return input with snake case props r
       { foo_bar: 'value', foo: 'value' }
     ]
   }
-  t.alike(transformKeysToSnake(input, { recursive: true }), output)
+  alikePlain(t, transformKeysToSnake(input, { recursive: true }), output)
 })
 
 test('transformKeysToSnake recursive should work with array mix of object and nested arrays', (t) => {
@@ -94,5 +95,5 @@ test('transformKeysToSnake recursive should work with array mix of object and ne
   const output = {
     mixed_array: [123, { some_key: 'value' }, [{ nested_array_item: 'test' }]]
   }
-  t.alike(transformKeysToSnake(input, { recursive: true }), output)
+  alikePlain(t, transformKeysToSnake(input, { recursive: true }), output)
 })

@@ -1,5 +1,7 @@
 'use strict'
 
+const { assertSafeKey } = require('./util/assertSafePath')
+
 /**
  * Assigns the object properties from the sources
  *
@@ -12,6 +14,9 @@ const assignInWith = (object, ...rest) => {
   const customizer = rest.pop()
   if (typeof customizer !== 'function') return object
   if (rest.length === 0) return object
+  rest.forEach((source) => {
+    for (const key in source) assertSafeKey(key)
+  })
   rest.forEach((source) => {
     for (const key in source) {
       const value = customizer(object[key], source[key], key, object, source)

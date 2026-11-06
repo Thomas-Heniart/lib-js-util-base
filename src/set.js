@@ -1,6 +1,6 @@
 'use strict'
 
-const toPath = require('./util/toPath')
+const { assertSafePath } = require('./util/assertSafePath')
 
 /**
  * Sets the value at path of object
@@ -11,7 +11,7 @@ const toPath = require('./util/toPath')
  */
 const set = (obj, path, value) => {
   if (!obj) return obj
-  const segments = toPath(path)
+  const segments = assertSafePath(path)
   let current = obj
 
   const lastIndex = segments.length - 1
@@ -23,8 +23,8 @@ const set = (obj, path, value) => {
       return obj
     }
 
-    if (!current[key] || typeof current[key] !== 'object') {
-      current[key] = {}
+    if (!Object.hasOwn(current, key) || !current[key] || typeof current[key] !== 'object') {
+      current[key] = Object.create(null)
     }
 
     current = current[key]

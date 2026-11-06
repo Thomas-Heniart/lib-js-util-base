@@ -2,10 +2,10 @@
 
 const pickBy = (obj, predicate) => {
   if (obj === null) {
-    return {}
+    return Object.create(null)
   }
 
-  const newObj = {}
+  const newObj = Object.create(null)
   for (const key in obj) {
     const val = obj[key]
     if (predicate(val, key)) {

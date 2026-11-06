@@ -8,7 +8,7 @@ const cloneObj = (obj) => {
   } catch (error) {
     // If the stringify fails due to circular reference, the merge defaults
     /* istanbul ignore next */
-    return Object.assign({}, obj)
+    return Object.assign(Object.create(null), obj)
   }
 }
 

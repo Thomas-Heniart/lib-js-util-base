@@ -1,7 +1,7 @@
 'use strict'
 
 const get = require('./get')
-const toPath = require('./util/toPath')
+const { assertSafePath } = require('./util/assertSafePath')
 
 /**
  *
@@ -12,12 +12,13 @@ const toPath = require('./util/toPath')
  */
 const _setObjByPath = (nested, path, value) => {
   if (path.length === 1) {
-    return Object.assign(nested, { [path[0]]: value })
+    nested[path[0]] = value
+    return nested
   }
 
   const currentProp = path.shift()
-  if (nested[currentProp] === undefined) {
-    nested[currentProp] = {}
+  if (!Object.hasOwn(nested, currentProp)) {
+    nested[currentProp] = Object.create(null)
   }
 
   return _setObjByPath(nested[currentProp], path, value)
@@ -31,7 +32,7 @@ const _setObjByPath = (nested, path, value) => {
  * @returns
  */
 const _pickByPath = (src, dest, path) => {
-  const pathArr = toPath(path)
+  const pathArr = assertSafePath(path)
 
   const value = get(src, [...pathArr])
   if (value !== undefined) {
@@ -48,10 +49,10 @@ const _pickByPath = (src, dest, path) => {
  */
 const pick = (obj, ...pathes) => {
   if (obj === null) {
-    return {}
+    return Object.create(null)
   }
 
-  const newObj = {}
+  const newObj = Object.create(null)
   for (const path of pathes) {
     if (typeof path === 'string') {
       _pickByPath(obj, newObj, path)

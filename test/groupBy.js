@@ -1,6 +1,7 @@
 'use strict'
 
 const test = require('brittle')
+const alikePlain = require('./helpers/alikePlain')
 const { groupBy } = require('../index')
 
 test('groupBy should group items by string property key', (t) => {
@@ -14,7 +15,7 @@ test('groupBy should group items by string property key', (t) => {
 
   const groupedItems = groupBy(items, 'category')
 
-  t.alike(groupedItems, {
+  alikePlain(t, groupedItems, {
     fiat: [
       { id: 1, category: 'fiat', name: 'USD' },
       { id: 2, category: 'fiat', name: 'EUR' },
@@ -37,7 +38,7 @@ test('groupBy should group items by number property key', (t) => {
 
   const groupedItems = groupBy(items, 'balance')
 
-  t.alike(groupedItems, {
+  alikePlain(t, groupedItems, {
     25: [
       { id: 1, balance: 25 },
       { id: 3, balance: 25 }
@@ -58,7 +59,7 @@ test('groupBy should group items by computed key using a function', (t) => {
 
   const groupedItems = groupBy(items, item => item.name.charAt(0))
 
-  t.alike(groupedItems, {
+  alikePlain(t, groupedItems, {
     U: [{ id: 1, category: 'fiat', name: 'USD' }, { id: 3, category: 'crypto', name: 'USDT' }],
     E: [{ id: 2, category: 'fiat', name: 'EUR' }, { id: 5, category: 'crypto', name: 'EURT' }],
     I: [{ id: 4, category: 'fiat', name: 'INR' }]
@@ -75,7 +76,7 @@ test('groupBy should group items by function returning a number', (t) => {
 
   const groupedItems = groupBy(items, item => Math.floor(item.balance / 10))
 
-  t.alike(groupedItems, {
+  alikePlain(t, groupedItems, {
     2: [
       { id: 1, balance: 25 },
       { id: 3, balance: 25 }
@@ -89,14 +90,14 @@ test('groupBy should handle empty array', (t) => {
   const items = []
   const groupedItems = groupBy(items, 'category')
 
-  t.alike(groupedItems, {})
+  alikePlain(t, groupedItems, {})
 })
 
 test('groupBy should handle array with one item', (t) => {
   const items = [{ id: 1, category: 'fiat', name: 'USD' }]
   const groupedItems = groupBy(items, 'category')
 
-  t.alike(groupedItems, {
+  alikePlain(t, groupedItems, {
     fiat: [{ id: 1, category: 'fiat', name: 'USD' }]
   })
 })

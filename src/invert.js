@@ -7,7 +7,7 @@
  * @returns {object} - The new object with inverted key-value pairs.
  */
 const invert = (object) => {
-  const newObject = {}
+  const newObject = Object.create(null)
   for (const key in object) {
     newObject[object[key]] = key
   }

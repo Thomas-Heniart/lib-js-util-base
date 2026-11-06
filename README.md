@@ -63,3 +63,5 @@ Currently supported utils:
 - `upperFirst` - converts the first character of string to upper case
 - `validateInput` - validates the input based on the regex format options: `NUMBER | EMAIL | PATH | NAME | NAME_WITH_DIGITS | INPUT | ADDRESS | PHONE_CODE | PHONE | IMAGE | FILE | FILENAME | PASSWORD | URL`
 - `without` - creates an array of values from the first argument excluding all given arguments
+
+Object-building helpers such as `clone` (for objects), `groupBy`, `invert`, `mapKeys`, `mapValues`, `pick`, `pickBy`, `omitBy`, and `transformKeysToSnake` return objects with null prototypes. These results do not inherit methods such as `hasOwnProperty`; use `Object.hasOwn(result, key)` instead. Path-based writes and merges throw `ERR_UNSAFE_PATH` for `__proto__`, `constructor`, or `prototype` keys.

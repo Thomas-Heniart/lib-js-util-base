@@ -10,7 +10,7 @@ const get = require('./get')
  * @returns {object} - The new object with mapped values.
  */
 const mapValues = (src, iteratee) => {
-  const result = {}
+  const result = Object.create(null)
   const _iteratee = typeof iteratee === 'function' ? iteratee : (value) => get(value, iteratee)
   for (const key in src) {
     result[key] = _iteratee(src[key])

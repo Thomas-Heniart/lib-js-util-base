@@ -7,9 +7,11 @@ const CHARACTERS = '\\p{L}\\p{M}'
 const INPUT_BASE_REG_EXP = new RegExp(`-0-9.,;:<>?/\n${CHARACTERS}'_ &()/+@%`, 'u')
 const DIGITS = '0-9'
 
-const NUMBER = /^[+-]?\d*[.]?\d+$/
+const MAX_NUMBER_LENGTH = 20 // Signed int64 text, including the sign.
+const NUMBER = /^[+-]?(?:\d+(?:\.\d+)?|\.\d+)$/
 const EMAIL = /^[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?$/i
-const PATH = /([^/]*)\/*$/
+const MAX_PATH_LENGTH = 512
+const PATH = /^[^/]*(?:\/[^/]*)*$/
 const NAME = new RegExp(`^[-${CHARACTERS}' &()/]+$`, 'u')
 const NAME_WITH_DIGITS = new RegExp(`^[-${CHARACTERS}${DIGITS}' &()/]+$`, 'u')
 const INPUT = new RegExp(`^[${INPUT_BASE_REG_EXP.source}]+$`, 'u')
@@ -32,9 +34,9 @@ const validateInput = (input, format) => {
   switch (format) {
     case 'NAME': return NAME.test(input)
     case 'NAME_WITH_DIGITS': return NAME_WITH_DIGITS.test(input)
-    case 'NUMBER': return NUMBER.test(input)
+    case 'NUMBER': return typeof input === 'string' && input.length <= MAX_NUMBER_LENGTH && NUMBER.test(input)
     case 'EMAIL': return EMAIL.test(input)
-    case 'PATH': return PATH.test(input)
+    case 'PATH': return typeof input === 'string' && input.length <= MAX_PATH_LENGTH && PATH.test(input)
     case 'INPUT': return INPUT.test(input)
     case 'ADDRESS': return ADDRESS.test(input)
     case 'PHONE': return PHONE.test(input)
