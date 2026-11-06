@@ -1,7 +1,6 @@
 'use strict'
 
 const test = require('brittle')
-const assert = require('assert')
 const unset = require('../src/unset')
 
 for (const [index, [obj, path, expected]] of [
@@ -20,10 +19,10 @@ for (const [index, [obj, path, expected]] of [
   [{ a: 'baz', b: { a: { c: 'baz', d: [{ foo: 'koo', bar: 'fooz' }] } } }, 'b.a.d[0].bar', { a: 'baz', b: { a: { c: 'baz', d: [{ foo: 'koo' }] } } }],
   [{ a: 'baz', b: { a: { c: 'baz', d: 'koo' } } }, 'a', { b: { a: { c: 'baz', d: 'koo' } } }]
 ].entries()) {
-  test(`unset should be able to unset an object an any arbitrary depth returning true on success [${index + 1}]`, () => {
+  test(`unset should be able to unset an object an any arbitrary depth returning true on success [${index + 1}]`, (t) => {
     const found = unset(obj, path)
-    assert.deepStrictEqual(obj, expected)
-    assert.strictEqual(found, true)
+    t.alike(obj, expected)
+    t.is(found, true)
   })
 }
 
@@ -36,8 +35,8 @@ for (const [index, [obj, path]] of [
   [{ a: 'baz', b: { a: { c: 'baz' } } }, 'b.a.k'],
   [{ a: 'baz', b: { a: { c: 'baz', d: 'koo' } } }, 'b.f.d']
 ].entries()) {
-  test(`unset should return true even when target was not found [${index + 1}]`, () => {
-    assert.strictEqual(unset(obj, path), true)
+  test(`unset should return true even when target was not found [${index + 1}]`, (t) => {
+    t.is(unset(obj, path), true)
   })
 }
 
@@ -48,12 +47,12 @@ for (const [index, [obj, path]] of [
   [{ a: 'baz', b: { a: Object.freeze({ c: 'baz' }) } }, 'b.a.c'],
   [Object.freeze({ a: 'baz', b: { a: { c: 'baz', d: 'koo' } } }), 'a']
 ].entries()) {
-  test(`unset should return false when target was found but could not be removed [${index + 1}]`, () => {
-    assert.strictEqual(unset(obj, path), false)
+  test(`unset should return false when target was found but could not be removed [${index + 1}]`, (t) => {
+    t.is(unset(obj, path), false)
   })
 }
 
-test('unset should return false when delete throws an error', () => {
+test('unset should return false when delete throws an error', (t) => {
   const throwingProxy = new Proxy({ a: 123 }, {
     deleteProperty (target, prop) {
       if (prop === 'a') {
@@ -64,5 +63,5 @@ test('unset should return false when delete throws an error', () => {
   })
 
   const result = unset(throwingProxy, 'a')
-  assert.strictEqual(result, false)
+  t.is(result, false)
 })

@@ -1,127 +1,126 @@
 'use strict'
 
 const test = require('brittle')
-const assert = require('assert')
 const { cloneDeep, isPlainObject } = require('../index')
 
-test('cloneDeep should deep clone objects', () => {
+test('cloneDeep should deep clone objects', (t) => {
   const obj = { foo: 1, bar: { baz: 'a' } }
   const clone = cloneDeep(obj)
-  assert.deepStrictEqual(obj, clone)
-  assert.notStrictEqual(obj, clone)
+  t.alike(obj, clone)
+  t.not(obj, clone)
 })
 
-test('cloneDeep should deep clone arrays', () => {
+test('cloneDeep should deep clone arrays', (t) => {
   const obj = [1, [2, 3]]
   const clone = cloneDeep(obj)
-  assert.deepStrictEqual(obj, clone)
-  assert.notStrictEqual(obj, clone)
+  t.alike(obj, clone)
+  t.not(obj, clone)
 })
 
-test('cloneDeep should not throw an error when cloning non-objects', () => {
+test('cloneDeep should not throw an error when cloning non-objects', (t) => {
   const sources = [undefined, Symbol('a'), () => {}]
 
   for (const obj of sources) {
     const clone = cloneDeep(obj)
 
     if (obj instanceof Function) {
-      assert.strictEqual(isPlainObject(clone), true)
+      t.is(isPlainObject(clone), true)
 
       return
     }
 
-    assert.deepStrictEqual(obj, clone)
+    t.alike(obj, clone)
   }
 })
 
-test('cloneDeep should deep clone objects with regular expressions', () => {
+test('cloneDeep should deep clone objects with regular expressions', (t) => {
   const obj = { foo: /a/ }
   const clone = cloneDeep(obj)
-  assert.deepEqual(obj.foo, clone.foo)
-  assert.notStrictEqual(obj.foo, clone.foo)
+  t.alike(obj.foo, clone.foo)
+  t.not(obj.foo, clone.foo)
 })
 
-test('cloneDeep should deep clone objects with dates', () => {
+test('cloneDeep should deep clone objects with dates', (t) => {
   const obj = { foo: new Date() }
   const clone = cloneDeep(obj)
-  assert.deepEqual(obj.foo, clone.foo)
-  assert.notStrictEqual(obj.foo, clone.foo)
+  t.alike(obj.foo, clone.foo)
+  t.not(obj.foo, clone.foo)
 })
 
-test('cloneDeep should deep clone objects with maps', () => {
+test('cloneDeep should deep clone objects with maps', (t) => {
   const obj = { foo: new Map() }
   const clone = cloneDeep(obj)
-  assert.deepEqual(obj.foo, clone.foo)
-  assert.notStrictEqual(obj.foo, clone.foo)
+  t.alike(obj.foo, clone.foo)
+  t.not(obj.foo, clone.foo)
 })
 
-test('cloneDeep should deep clone objects with sets', () => {
+test('cloneDeep should deep clone objects with sets', (t) => {
   const obj = { foo: new Set() }
   const clone = cloneDeep(obj)
-  assert.deepEqual(obj.foo, clone.foo)
-  assert.notStrictEqual(obj.foo, clone.foo)
+  t.alike(obj.foo, clone.foo)
+  t.not(obj.foo, clone.foo)
 })
 
-test('cloneDeep should deep clone objects with circular references', () => {
+test('cloneDeep should deep clone objects with circular references', (t) => {
   const obj = { foo: { bar: { baz: { } } } }
   obj.foo.bar.baz.qux = obj
   const clone = cloneDeep(obj)
-  assert.deepEqual(obj.foo.bar.baz.qux, clone.foo.bar.baz.qux)
-  assert.notStrictEqual(obj.foo.bar.baz.qux, clone.foo.bar.baz.qux)
+  t.alike(obj.foo.bar.baz.qux, clone.foo.bar.baz.qux)
+  t.not(obj.foo.bar.baz.qux, clone.foo.bar.baz.qux)
 })
 
-test('cloneDeep should deep clone Map with non-primitive keys', () => {
+test('cloneDeep should deep clone Map with non-primitive keys', (t) => {
   const keyObj = { id: 1 }
   const valueObj = { name: 'test' }
   const map = new Map([[keyObj, valueObj]])
   const clone = cloneDeep(map)
-  assert.notStrictEqual(map, clone)
+  t.not(map, clone)
   const clonedKey = Array.from(clone.keys())[0]
   const clonedValue = clone.get(clonedKey)
-  assert.notStrictEqual(keyObj, clonedKey)
-  assert.notStrictEqual(valueObj, clonedValue)
-  assert.deepStrictEqual(keyObj, clonedKey)
-  assert.deepStrictEqual(valueObj, clonedValue)
+  t.not(keyObj, clonedKey)
+  t.not(valueObj, clonedValue)
+  t.alike(keyObj, clonedKey)
+  t.alike(valueObj, clonedValue)
 })
 
-test('cloneDeep should deep clone Set with complex values', () => {
+test('cloneDeep should deep clone Set with complex values', (t) => {
   const obj1 = { id: 1 }
   const obj2 = { id: 2 }
   const set = new Set([obj1, obj2])
   const clone = cloneDeep(set)
-  assert.notStrictEqual(set, clone)
+  t.not(set, clone)
   const clonedValues = Array.from(clone)
-  assert.notStrictEqual(obj1, clonedValues[0])
-  assert.notStrictEqual(obj2, clonedValues[1])
-  assert.deepStrictEqual(obj1, clonedValues[0])
-  assert.deepStrictEqual(obj2, clonedValues[1])
+  t.not(obj1, clonedValues[0])
+  t.not(obj2, clonedValues[1])
+  t.alike(obj1, clonedValues[0])
+  t.alike(obj2, clonedValues[1])
 })
 
-test('cloneDeep should deep clone TypedArray', () => {
+test('cloneDeep should deep clone TypedArray', (t) => {
   const buffer = new ArrayBuffer(16)
   const uint8 = new Uint8Array(buffer)
   uint8[0] = 42
   const obj = { data: uint8 }
   const clone = cloneDeep(obj)
-  assert.notStrictEqual(obj.data, clone.data)
-  assert.strictEqual(clone.data.constructor, Uint8Array)
-  assert.strictEqual(clone.data[0], 42)
+  t.not(obj.data, clone.data)
+  t.is(clone.data.constructor, Uint8Array)
+  t.is(clone.data[0], 42)
 })
 
-test('cloneDeep should deep clone Buffer', () => {
+test('cloneDeep should deep clone Buffer', (t) => {
   const buffer = Buffer.from('hello')
   const obj = { data: buffer }
   const clone = cloneDeep(obj)
-  assert.notStrictEqual(obj.data, clone.data)
-  assert.strictEqual(Buffer.isBuffer(clone.data), true)
-  assert.strictEqual(clone.data.toString(), 'hello')
+  t.not(obj.data, clone.data)
+  t.is(Buffer.isBuffer(clone.data), true)
+  t.is(clone.data.toString(), 'hello')
 })
 
-test('cloneDeep should handle DataView (should not clone as TypedArray)', () => {
+test('cloneDeep should handle DataView (should not clone as TypedArray)', (t) => {
   const buffer = new ArrayBuffer(16)
   const dataView = new DataView(buffer)
   const obj = { data: dataView }
   const clone = cloneDeep(obj)
-  assert.notStrictEqual(obj.data, clone.data)
-  assert.strictEqual(clone.data.constructor, DataView)
+  t.not(obj.data, clone.data)
+  t.is(clone.data.constructor, DataView)
 })
